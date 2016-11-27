@@ -1,0 +1,179 @@
+fileFormatVersion: 2
+guid: b8e1cb88934e9b6489c46b5763efe9dc
+timeCreated: 1469146570
+licenseType: Store
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Body
+    100002: Boot_1
+    100004: Boot_2
+    100006: Cap_1
+    100008: Head_1
+    100010: //RootNode
+    100012: Body_1
+    100014: Head1
+    100016: Head2
+    100018: HeadNub
+    100020: HeadNub_Goal
+    100022: LClav
+    100024: LFoot
+    100026: LHand
+    100028: LHandNub
+    100030: LHandNub_Goal
+    100032: LLower
+    100034: LlowerArm
+    100036: LNub
+    100038: LNub_Goal
+    100040: LThigh
+    100042: LUpper
+    100044: LUpperArm
+    100046: Neck
+    100048: Pelvis
+    100050: RClav
+    100052: RFoot
+    100054: RHand
+    100056: RHandNub
+    100058: RHandNub_Goal
+    100060: RLower
+    100062: RLowerArm
+    100064: RNub
+    100066: RNub_Goal
+    100068: Root
+    100070: Root_2
+    100072: Root_3
+    100074: RThigh
+    100076: RUpper
+    100078: RUpperArm
+    100080: Skin
+    100082: Spine1
+    100084: Spine2
+    100086: Throat
+    100088: Pelvis_2
+    400000: Body
+    400002: Boot_1
+    400004: Boot_2
+    400006: Cap_1
+    400008: Head_1
+    400010: //RootNode
+    400012: Body_1
+    400014: Head1
+    400016: Head2
+    400018: HeadNub
+    400020: HeadNub_Goal
+    400022: LClav
+    400024: LFoot
+    400026: LHand
+    400028: LHandNub
+    400030: LHandNub_Goal
+    400032: LLower
+    400034: LlowerArm
+    400036: LNub
+    400038: LNub_Goal
+    400040: LThigh
+    400042: LUpper
+    400044: LUpperArm
+    400046: Neck
+    400048: Pelvis
+    400050: RClav
+    400052: RFoot
+    400054: RHand
+    400056: RHandNub
+    400058: RHandNub_Goal
+    400060: RLower
+    400062: RLowerArm
+    400064: RNub
+    400066: RNub_Goal
+    400068: Root
+    400070: Root_2
+    400072: Root_3
+    400074: RThigh
+    400076: RUpper
+    400078: RUpperArm
+    400080: Skin
+    400082: Spine1
+    400084: Spine2
+    400086: Throat
+    400088: Pelvis_2
+    2300000: Body
+    2300002: Boot_1
+    2300004: Boot_2
+    2300006: Cap_1
+    2300008: Head_1
+    2300010: Body_1
+    3300000: Body
+    3300002: Boot_1
+    3300004: Boot_2
+    3300006: Cap_1
+    3300008: Head_1
+    3300010: Body_1
+    4300000: Cap_1
+    4300002: Boot_2
+    4300004: Boot_1
+    4300006: Body
+    4300008: Head_1
+    4300010: Body_1
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

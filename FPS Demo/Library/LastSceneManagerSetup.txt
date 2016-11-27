@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/Aiden Studios/Scenes/Dirt.unity
+  isLoaded: 1
+  isActive: 1

@@ -1,0 +1,136 @@
+fileFormatVersion: 2
+guid: 857aebe925c6e1849b0e9055774df445
+timeCreated: 1469217876
+licenseType: Store
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Joint_10
+    100004: Joint_10_2
+    100006: Joint_10_3
+    100008: Joint_11
+    100010: Joint_11_2
+    100012: Joint_11_3
+    100014: Joint_12
+    100016: Joint_12_2
+    100018: Joint_2
+    100020: Joint_3
+    100022: Joint_4
+    100024: Joint_5
+    100026: Joint_6
+    100028: Joint_7
+    100030: Joint_7_2
+    100032: Joint_7_3
+    100034: Joint_7_4
+    100036: Joint_8
+    100038: Joint_8_2
+    100040: Joint_8_3
+    100042: Joint_8_4
+    100044: Joint_9
+    100046: Joint_9_2
+    100048: Joint_9_3
+    100050: Joint_9_4
+    100052: Root
+    100054: Root_2
+    100056: Root_3
+    100058: Root_4
+    100060: Skin
+    400000: //RootNode
+    400002: Joint_10
+    400004: Joint_10_2
+    400006: Joint_10_3
+    400008: Joint_11
+    400010: Joint_11_2
+    400012: Joint_11_3
+    400014: Joint_12
+    400016: Joint_12_2
+    400018: Joint_2
+    400020: Joint_3
+    400022: Joint_4
+    400024: Joint_5
+    400026: Joint_6
+    400028: Joint_7
+    400030: Joint_7_2
+    400032: Joint_7_3
+    400034: Joint_7_4
+    400036: Joint_8
+    400038: Joint_8_2
+    400040: Joint_8_3
+    400042: Joint_8_4
+    400044: Joint_9
+    400046: Joint_9_2
+    400048: Joint_9_3
+    400050: Joint_9_4
+    400052: Root
+    400054: Root_2
+    400056: Root_3
+    400058: Root_4
+    400060: Skin
+    4300000: Arm_1
+    9500000: //RootNode
+    13700000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
