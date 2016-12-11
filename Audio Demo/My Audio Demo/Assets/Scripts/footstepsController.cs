@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class footstepsController : MonoBehaviour {
+public class footstepsController : MonoBehaviour 
+	{
 
 	[SerializeField] private AudioClip[] clips;
 	private AudioSource source;
@@ -21,9 +22,9 @@ public class footstepsController : MonoBehaviour {
 
 	public void PlayFootstepSound()
 	{
-		int x = Random.Range(1,5);
+		int x = Random.Range(1,4);
 		theClip = clips[x];
 		source.PlayOneShot(theClip);
 	}
 
-}
+    }
