@@ -26,6 +26,7 @@ public class footstepsController : MonoBehaviour
 	private AudioSource source;
 	private AudioClip[] theClips;
 	private AudioClip theClip;
+	private int randomNumber;
 
 	void Start ()
 	{
@@ -56,16 +57,20 @@ public class footstepsController : MonoBehaviour
 	public void PlayFootstepSound()
 	{
 		theClips = GetTheClips(theCollidedMaterial);
-		int x = Random.Range(0, theClips.Length-1);
-		theClip = theClips[x];
-		Randomization(VolMin, VolMax, PitchMin, PitchMax);
+		Randomization(VolMin, VolMax, PitchMin, PitchMax, theClips.Length);
+		theClip = theClips[randomNumber];
 		source.PlayOneShot(theClip);
 	}
 
-	private void Randomization(float volmin, float volmax, float pitchmin, float pitchmax)
+	private void Randomization(float volmin, float volmax, float pitchmin, float pitchmax, int arraylength)
 	{
 		source.volume = Random.Range(volmin, volmax);
 		source.pitch = Random.Range(pitchmin, pitchmax);
+		int lastnumber = randomNumber;
+		while (randomNumber == lastnumber)
+		{
+			randomNumber = Random.Range(0, arraylength);
+		}
 	}
 
 }
