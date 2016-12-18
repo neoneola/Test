@@ -4,44 +4,43 @@ using System.Collections.Generic;
 
 [System.Serializable] public class footstepClipsOfOneMaterial
 {
-	//[SerializeField] private string materialName;
 	public PhysicMaterial Material;
 	public AudioClip[] Clips;
 }
 
+[RequireComponent(typeof (Collider))]
+[RequireComponent(typeof (AudioSource))]
 public class footstepsController : MonoBehaviour 
 {
-	public PhysicMaterial theCollidedMaterial;
-	//[SerializeField] private footstepClipsOfOneMaterial[] MaterialList;
+	private PhysicMaterial theCollidedMaterial;
+	[SerializeField] private string FloorTag;
+
+	[Header("Randomization")]
+	[SerializeField] [Range(0,1)] private float VolMin;
+	[SerializeField] [Range(0,1)] private float VolMax;
+	[SerializeField] private float PitchMin;
+	[SerializeField] private float PitchMax;
+	[Space(10)]
+
 	public List<footstepClipsOfOneMaterial> MaterialList;
 	private AudioSource source;
 	private AudioClip[] theClips;
 	private AudioClip theClip;
 
-
-	// Use this for initialization
 	void Start ()
 	{
 		source = GetComponent<AudioSource>();
 	}
-	
-	// Update is called once per frame
-	/*
-	void Update()
+
+	void OnTriggerEnter(Collider other)
 	{
-		RaycastHit hit;
-		Ray GroundDetectorRay = new Ray(transform.position, Vector3.down);
-		if(Physics.Raycast(GroundDetectorRay, out hit, 5f))
+		if(other.gameObject.tag == FloorTag)
 		{
-			if(hit.collider.gameObject.tag == "Ground")
-			{
-				theCollidedMaterial = hit.collider.material;
-			}
+			theCollidedMaterial = other.sharedMaterial;
 		}
 	}
-	*/
 
-	public AudioClip[] GetTheClips(PhysicMaterial p)
+	private AudioClip[] GetTheClips(PhysicMaterial p)
 	{
 		foreach (var footstepClipsOfOneMaterial in MaterialList)
 		{
@@ -53,14 +52,20 @@ public class footstepsController : MonoBehaviour
 		}
 		return null;
 	}
-
-
+		
 	public void PlayFootstepSound()
 	{
 		theClips = GetTheClips(theCollidedMaterial);
 		int x = Random.Range(0, theClips.Length-1);
 		theClip = theClips[x];
+		Randomization(VolMin, VolMax, PitchMin, PitchMax);
 		source.PlayOneShot(theClip);
+	}
+
+	private void Randomization(float volmin, float volmax, float pitchmin, float pitchmax)
+	{
+		source.volume = Random.Range(volmin, volmax);
+		source.pitch = Random.Range(pitchmin, pitchmax);
 	}
 
 }
