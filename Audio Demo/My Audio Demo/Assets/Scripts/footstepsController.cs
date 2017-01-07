@@ -5,6 +5,7 @@ using System.Collections.Generic;
 [System.Serializable] public class footstepClipsOfOneMaterial
 {
 	public PhysicMaterial Material;
+	[Range(0,1)] public float Volume = 1f;
 	public AudioClip[] Clips;
 }
 
@@ -27,13 +28,14 @@ public class footstepsController : MonoBehaviour
 	private AudioClip[] theClips;
 	private AudioClip theClip;
 	private int randomNumber;
+	private float clipsVol;
 
 	void Start ()
 	{
 		source = GetComponent<AudioSource>();
 	}
 
-	void OnTriggerEnter(Collider other)
+	void OnTriggerStay(Collider other)
 	{
 		if(other.gameObject.tag == FloorTag)
 		{
@@ -48,6 +50,7 @@ public class footstepsController : MonoBehaviour
 			if (footstepClipsOfOneMaterial.Material == p)
 			{
 				footstepClipsOfOneMaterial thelist = footstepClipsOfOneMaterial;
+				clipsVol = thelist.Volume;
 				return thelist.Clips;
 			}
 		}
@@ -64,7 +67,7 @@ public class footstepsController : MonoBehaviour
 
 	private void Randomization(float volmin, float volmax, float pitchmin, float pitchmax, int arraylength)
 	{
-		source.volume = Random.Range(volmin, volmax);
+		source.volume = Random.Range(volmin, volmax) * clipsVol;
 		source.pitch = Random.Range(pitchmin, pitchmax);
 		int lastnumber = randomNumber;
 		while (randomNumber == lastnumber)
