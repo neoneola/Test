@@ -4,20 +4,20 @@ using System.Collections;
 public class AudioRaycast : MonoBehaviour {
 
 	private Vector3 directionToPlayer, directionCenter;
-	private Vector3 edgeL, edgeR, directionToEdgeL, directionToEdgeR;
+	private Vector3 edgeL, edgeR, directionToEdgeL, directionToEdgeR, directionLToPlayer, directionRToPlayer;
 	private Vector3 ScannerL, ScannerR;
 	private GameObject thePlayer;
 	private AudioSource source;
 	private AudioLowPassFilter LPfilter;
 	private float rayDistance;
     private float scanAngleL, scanAngleR;
-	private float edgeLAngle, edgeRAngle, maxAngle, angleL, angleR;
+	private float edgeLAngle, edgeRAngle, maxAngle, angleL, angleR, LToPAngle, RToPAngle;
 	public float staticMaxAngle = 25f;
 	private int timerWakeUp;
 	[SerializeField][Range(0,1)]private float filterPercentage = 0f;
 	private bool edgeLFound = false, edgeRFound = false, pathClear = true, wake = false, transitionDone = false;
 	private Collider hitCollider;
-	public AnimationCurve filterCurve;
+	public AnimationCurve filterCurve, Curve2;
 
 	void Start () 
 	{
@@ -31,15 +31,14 @@ public class AudioRaycast : MonoBehaviour {
 	
 	void FixedUpdate () 
 	{
-		rayDistance = (thePlayer.transform.position-transform.position).magnitude;
-		directionToPlayer = (thePlayer.transform.position + new Vector3(0f, 0.6f, 0f) - transform.position).normalized;
-
-		directionCenter = directionToPlayer * rayDistance;
+		directionCenter = thePlayer.transform.position + new Vector3(0f, 0.6f, 0f) - transform.position;
+		rayDistance = directionCenter.magnitude;
+		directionToPlayer = directionCenter.normalized;
 
 		Ray rayMain = new Ray(transform.position, directionCenter);
-	
 		RaycastHit hit;
 		Debug.DrawRay(transform.position, directionCenter, Color.red, 0, false);
+
 		Scan();
 		Occlusion();
 		WakeUp();
@@ -48,7 +47,6 @@ public class AudioRaycast : MonoBehaviour {
 		Debug.DrawRay(transform.position, ScannerR, Color.green, 0, false);
 		Debug.DrawRay(transform.position, directionToEdgeR, Color.blue, 0, false);
 		//Debug.DrawRay(edgeL, Vector3.up, Color.yellow, 0, false);
-
 
 		LPfilter.cutoffFrequency = 22000f - (21500f * filterPercentage);
 	}
@@ -82,8 +80,9 @@ public class AudioRaycast : MonoBehaviour {
 
 				if(edgeLFound == false)
 				{
-					Physics.Raycast(clearPathL, out scanLHit);
-					if(!Physics.Raycast(clearPathL, out scanLHit, ScannerL.magnitude * 1.2f))
+					int layerMask = 1 << 8;
+					bool hitColl = Physics.Raycast(clearPathL, out scanLHit, ScannerL.magnitude * 1.3f, layerMask);
+					if(!hitColl)
 					{
 						edgeLFound = true;
 						//Debug.Log("edge Left found");
@@ -92,7 +91,7 @@ public class AudioRaycast : MonoBehaviour {
 					else
 					{
 						ScannerL.y = rayMain.direction.y * ScannerL.magnitude;
-						ScannerL = ScannerL.normalized * scanLHit.distance;
+						ScannerL = ScannerL.normalized * scanLHit.distance * 1.05f;
 						ScannerL = Quaternion.Euler(new Vector3(0f, scanAngleL)) * ScannerL;
 						edgeLAngle = edgeLAngle + scanAngleL;
 						scanAngleL = scanAngleL <= 2f ? scanAngleL + 0.1f : 2f;
@@ -101,8 +100,9 @@ public class AudioRaycast : MonoBehaviour {
 
 				if(edgeRFound == false)
 				{
-					Physics.Raycast(clearPathR, out scanRHit);
-					if(!Physics.Raycast(clearPathR, out scanRHit, ScannerR.magnitude * 1.2f))
+					int layerMask = 1 << 8;
+					bool hitColl = Physics.Raycast(clearPathR, out scanRHit, ScannerR.magnitude * 1.3f, layerMask);
+					if(!hitColl)
 					{
 						edgeRFound = true;
 						//Debug.Log("edge Right found");
@@ -111,19 +111,29 @@ public class AudioRaycast : MonoBehaviour {
 					else
 					{
 						ScannerR.y = rayMain.direction.y * ScannerR.magnitude;
-						ScannerR = ScannerR.normalized * scanRHit.distance;
+						ScannerR = ScannerR.normalized * scanRHit.distance * 1.05f;
 						ScannerR = Quaternion.Euler(new Vector3(0f, -scanAngleR)) * ScannerR;
 						edgeRAngle = edgeRAngle + scanAngleR;
 						scanAngleR = scanAngleR <= 2f ? scanAngleR + 0.1f : 2f;
 					}
 				}
 
-				else
+				if(edgeLFound == true)
 				{
 					ScannerL.y = rayMain.direction.y * ScannerL.magnitude;
-					ScannerR.y = rayMain.direction.y * ScannerR.magnitude;
 					edgeL = transform.position + ScannerL;
+					directionLToPlayer = thePlayer.transform.position - edgeL;
+					Debug.DrawRay(edgeL, directionLToPlayer, Color.yellow, 0, false);
+					LToPAngle = Vector3.Angle(-ScannerL, directionLToPlayer);
+				}
+
+				if(edgeRFound == true)
+				{
+					ScannerR.y = rayMain.direction.y * ScannerR.magnitude;
 					edgeR = transform.position + ScannerR;
+					directionRToPlayer = thePlayer.transform.position - edgeR;
+					Debug.DrawRay(edgeR, directionRToPlayer, Color.yellow, 0, false);
+					RToPAngle = Vector3.Angle(-ScannerR, directionRToPlayer);
 				}	
 					
 			}
@@ -147,9 +157,13 @@ public class AudioRaycast : MonoBehaviour {
 				if (edgeLAngle <= 180f && edgeRAngle >= 180f)
 				{
 					angleL = Vector3.Angle(ScannerL, directionCenter);
+					//float x = Mathf.Clamp01(Curve2.Evaluate((LToPAngle/((180f-angleL)/2f))));
+					//Debug.Log(x);
 					if (angleL <= staticMaxAngle)
 					{
-						filterPercentage = Mathf.Clamp01(filterCurve.Evaluate(angleL/staticMaxAngle));
+						float x = occlusionModifier((LToPAngle/((180f-angleL)/2f)));
+						filterPercentage = Mathf.Clamp01(filterCurve.Evaluate(angleL/staticMaxAngle)) * x;
+						//Debug.Log(x);
 					}
 
 					else
@@ -273,6 +287,20 @@ public class AudioRaycast : MonoBehaviour {
 				timerWakeUp = timerWakeUp + 1;
 			}
 		}
+	}
+
+	float occlusionModifier(float a)
+	{
+		if (a > 0 && a < 1)
+		{
+			return (1-a);
+		}
+
+		else
+		{
+			return 1f;
+		}
+
 	}
 		
 }

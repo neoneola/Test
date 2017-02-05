@@ -1,10 +1,10 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\newscript.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\AudioObstruction.cs">
     <Files>
-      <File FileName="Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\FirstPersonController.cs" Line="32" Column="3" />
-      <File FileName="Assets\Scripts\footstepsController.cs" Line="24" Column="29" />
-      <File FileName="Assets\newscript.cs" Line="7" Column="17" />
+      <File FileName="Assets\Scripts\AudioObstruction.cs" Line="136" Column="3" />
+      <File FileName="Assets\Scripts\footstepsController.cs" Line="70" Column="47" />
+      <File FileName="Assets\Scripts\AudioRaycast.cs" Line="53" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -62,12 +62,12 @@ public class footstepsController : MonoBehaviour
 		theClips = GetTheClips(theCollidedMaterial);
 		Randomization(VolMin, VolMax, PitchMin, PitchMax, theClips.Length);
 		theClip = theClips[randomNumber];
-		source.PlayOneShot(theClip);
+		source.PlayOneShot(theClip, clipsVol);
 	}
 
 	private void Randomization(float volmin, float volmax, float pitchmin, float pitchmax, int arraylength)
 	{
-		source.volume = Random.Range(volmin, volmax) * clipsVol;
+		source.volume = Random.Range(volmin, volmax);
 		source.pitch = Random.Range(pitchmin, pitchmax);
 		int lastnumber = randomNumber;
 		while (randomNumber == lastnumber)
