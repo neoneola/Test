@@ -9,19 +9,24 @@ ModelImporter:
     100002: floor
     100004: Plane001
     100006: Plane002
+    100008: Object008
     400000: //RootNode
     400002: floor
     400004: Plane001
     400006: Plane002
+    400008: Object008
     2300000: floor
     2300002: Plane001
     2300004: Plane002
+    2300006: Object008
     3300000: floor
     3300002: Plane001
     3300004: Plane002
+    3300006: Object008
     4300000: Plane001
     4300002: floor
     4300004: Plane002
+    4300006: Object008
   materials:
     importMaterials: 1
     materialName: 0
