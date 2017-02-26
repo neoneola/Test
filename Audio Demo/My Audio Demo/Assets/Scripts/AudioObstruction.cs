@@ -7,17 +7,19 @@ public class AudioObstruction : MonoBehaviour {
 	private GameObject thePlayer;
 	private AudioSource source;
 	private AudioLowPassFilter LPfilter;
-	private Vector3 directionToPlayer, directionCenter, directionRandom, directionRandomToPlayer;
-	private Vector3 randomPointPlayer, randomPointSource;
+	private Vector3 direction_SourceToPlayer, direction_CenterRay, direction_RandomToRandom, directionRandomToPlayer;
+	private Vector3 randomPoint_AroundPlayer, randomPoint_AroundSource;
+    private Vector3 head = new Vector3(0f, 0.6f, 0f);
 	//private float lerpTime, currentLerpTime;
 	private float lerpModifier;
 	private float rayDistance;
 	private float filterPercentage, avgNumber, avgTotal, occlusionPercentage, volPercentage;
-	private int[] detectionList = new int[50];
-	private int detectionCount;
-	[SerializeField] private float detectionSize = 2f;
-	private Ray rayMain, rayRandom, rayRandomToPlayer;
-	private RaycastHit hitMain, hitRandom, hitRandomToPlayer;
+	private int[] detectionList;
+    private int detectionCount, detectionCount2;
+    [SerializeField] private int detectionSize = 64;
+	[SerializeField] private float sourceSphereSize = 2f;
+	private Ray ray_Main, ray_Random, ray_RandomToPlayer;
+	private RaycastHit hit_Main, hit_Random, hit_RandomToPlayer;
 	private bool wake;
 
 	void Start () 
@@ -29,7 +31,9 @@ public class AudioObstruction : MonoBehaviour {
 		lerpModifier = 10f;
 		wake = false;
 		LPfilter = GetComponent<AudioLowPassFilter>();
+        detectionList = new int[detectionSize + 1];
 		detectionCount = 0;
+        detectionCount2 = 0;
 		avgNumber = 0;
 		avgTotal = 0;
 	}
@@ -46,78 +50,97 @@ public class AudioObstruction : MonoBehaviour {
 		
 	void RayGenerator()
 	{
-		directionCenter = thePlayer.transform.position + new Vector3(0f, 0.6f, 0f) - transform.position;
-		rayDistance = directionCenter.magnitude;
-		directionToPlayer = directionCenter.normalized;
+		direction_CenterRay = thePlayer.transform.position + head - transform.position;
+		rayDistance = direction_CenterRay.magnitude;
+		direction_SourceToPlayer = direction_CenterRay.normalized;
 
-		randomPointPlayer = thePlayer.transform.position + new Vector3(0f, 0.6f, 0f) + Random.insideUnitSphere * (rayDistance/5);
-		directionRandom = randomPointPlayer - transform.position;
-		randomPointSource = transform.position + Random.insideUnitSphere * detectionSize;
+		randomPoint_AroundPlayer = thePlayer.transform.position + head + Random.insideUnitSphere * (rayDistance/5);
+		direction_RandomToRandom = randomPoint_AroundPlayer - randomPoint_AroundSource;
+		randomPoint_AroundSource = transform.position + Random.insideUnitSphere * sourceSphereSize;
 
-		directionRandomToPlayer = thePlayer.transform.position + new Vector3(0f, 0.6f, 0f) - randomPointPlayer;
+		directionRandomToPlayer = thePlayer.transform.position + head - randomPoint_AroundPlayer;
 
-		rayMain = new Ray(transform.position, directionCenter);
-		rayRandom = new Ray(randomPointSource, directionRandom);
-		rayRandomToPlayer = new Ray(randomPointPlayer, directionRandomToPlayer);
+		ray_Main = new Ray (transform.position, direction_CenterRay);
+		ray_Random = new Ray (randomPoint_AroundSource, direction_RandomToRandom);
+		ray_RandomToPlayer = new Ray (randomPoint_AroundPlayer, directionRandomToPlayer);
 
-		Debug.DrawRay (transform.position, directionCenter, Color.red, 0, false);
-		Debug.DrawRay (randomPointSource, directionRandom, Color.yellow, 0.2f, false);
-		Debug.DrawRay (randomPointPlayer, directionRandomToPlayer, Color.blue, 0.2f, false);
+		Debug.DrawRay (transform.position, direction_CenterRay, Color.red, 0, false);
+		Debug.DrawRay (randomPoint_AroundSource, direction_RandomToRandom, Color.yellow, 0.2f, false);
+		Debug.DrawRay (randomPoint_AroundPlayer, directionRandomToPlayer, Color.blue, 0.2f, false);
 	}
 
 	void Detection()
 	{
+        detectionCount += 1;
 
-		for (int i=0; i<=detectionList.Length-2; i++)
+        if (detectionCount > detectionSize)
+        {
+            detectionCount = 0;
+        }
+
+        if (detectionCount <= (detectionSize / 2))
+        {
+            detectionCount2 = detectionCount + (detectionSize / 2);
+        }
+
+        if (detectionCount > (detectionSize / 2))
+        {
+            detectionCount2 = detectionCount - (detectionSize / 2);
+        }
+
+		//for (int i=0; i<=detectionList.Length-2; i++)
+		//{
+		//	detectionList[i] = detectionList[i+1];
+		//}
+
+		if (Physics.Raycast(ray_Random, out hit_Random, direction_RandomToRandom.magnitude) && hit_Random.collider.tag == "Wall")
 		{
-			detectionList[i] = detectionList[i+1];
+			int x = 0;
+			RaycastHit[] allHits = Physics.RaycastAll(ray_Random, direction_RandomToRandom.magnitude);
+			foreach(RaycastHit oneHit in allHits)
+			{
+				if (oneHit.collider.tag == "Wall")
+				{
+					x += 1;
+				}
+			}
+            detectionList[detectionCount] = x;
+            avgTotal += detectionList[detectionCount];
 		}
 
-		//Physics.Raycast(rayMain, out hitMain, directionRandom.magnitude);
-
-//		if (Physics.Raycast(rayMain, out hitMain, directionRandom.magnitude) && hitMain.collider.tag == "Wall")
-//		{
-		if (Physics.Raycast(rayRandom, out hitRandom, directionRandom.magnitude) && hitRandom.collider.tag == "Wall")
+		else if(Physics.Raycast(ray_RandomToPlayer, out hit_RandomToPlayer, directionRandomToPlayer.magnitude) && hit_RandomToPlayer.collider.tag == "Wall")
 		{
-			detectionList[detectionList.Length-1] = 1;
-		}
-
-		else if(Physics.Raycast(rayRandomToPlayer, out hitRandomToPlayer, directionRandomToPlayer.magnitude) && hitRandomToPlayer.collider.tag == "Wall")
-		{
-			detectionList[detectionList.Length-1] = 1;
+			detectionList[detectionCount] = 1;
+            avgTotal += detectionList[detectionCount];
 		}
 
 		else
 		{
-			detectionList[detectionList.Length-1] = 0;
-		}
-			
-		avgNumber = (float) detectionList.Average();
+			detectionList[detectionCount] = 0;
+            avgTotal += detectionList[detectionCount];
+        }
 
-//			detectionCount = detectionCount + 1;
-//			avgTotal = avgTotal + avgNumber;
-//			outputNumber = avgTotal / detectionCount;
 
-//		}
-//
-//		else
-//		{
-//			avgNumber = 0;
-//		}
-			
-	}
+        avgTotal -= detectionList[detectionCount2];
+        //avgTotal = Mathf.Clamp(avgTotal, 0, detectionSize);
+        Debug.Log("Count" + detectionCount + ": " + detectionList[detectionCount] + ", Count" + detectionCount2 + ": " + detectionList[detectionCount] + ", " + avgTotal);
+        avgNumber = avgTotal / detectionSize;
+        
+        //avgNumber = Mathf.Clamp01((float)detectionList.Average());
+
+    }
 
 	void Occlusion()
 	{
 		if (wake == false)
 		{
 			lerpModifier -= 0.1f;
-			source.volume += 0.01f;
+			source.volume += 0.001f;
 		}
 
-		if (lerpModifier <= 1.5f && wake == false)
+		if (lerpModifier <= 2.5f && wake == false)
 		{
-			lerpModifier = 1.5f;
+			lerpModifier = 2.5f;
 			wake = true;
 		}
 
@@ -129,19 +152,9 @@ public class AudioObstruction : MonoBehaviour {
 		//Volume section
 		if(wake == true)
 		{
-		volPercentage = 0.6f + (1-occlusionPercentage) * 0.4f;
-		source.volume = Mathf.Lerp(source.volume, volPercentage, 1);
+		volPercentage = 0.5f + (1-occlusionPercentage) * 0.5f;
+		source.volume = Mathf.Lerp(source.volume, volPercentage, 0.6f);
 		}
 	}
-
-//	void OnDrawGizmos()
-//	{
-//		if(Physics.Raycast(rayRandom, out hit, directionRandom.magnitude) && hit.collider.tag == "Wall")
-//		{
-//			Gizmos.color = Color.white;
-//			Gizmos.DrawSphere(hit.point, 0.5f);
-//		}
-//	}
-
 
 }

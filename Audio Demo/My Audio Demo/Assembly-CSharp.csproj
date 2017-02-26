@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\AudioRaycast.cs" />
      <Compile Include="Assets\Scripts\ChangeFootStepMaterial.cs" />
      <Compile Include="Assets\Scripts\FirstPersonController.cs" />
+     <Compile Include="Assets\Scripts\NewBehaviourScript.cs" />
      <Compile Include="Assets\Scripts\footstepsController.cs" />
      <None Include="Assets\Standard Assets\Prototyping\Shaders\WorldCoordDiffuse.shader" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
