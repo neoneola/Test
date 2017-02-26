@@ -30,6 +30,8 @@ ModelImporter:
     4300004: Box012
     4300006: Box013
     4300008: Box026
+    4300010: Box055
+    4300012: Box045
   materials:
     importMaterials: 1
     materialName: 0
